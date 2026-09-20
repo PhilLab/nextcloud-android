@@ -17,10 +17,7 @@
         android:name="android.hardware.camera"
         android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- WRITE_EXTERNAL_STORAGE and INTERNET are already declared, more broadly, by :app itself. -->
 
     <application>
         <activity
@@ -28,9 +25,14 @@
             android:exported="false"
             android:theme="@style/Theme.FairScan" />
 
+        <!--
+            Authority matches what FairScan's own uriForFile() computes at runtime
+            ("${packageName}.fileprovider") - see FairScanFileProvider's own header for why this
+            isn't just androidx.core.content.FileProvider like FairScan's own manifest declares.
+        -->
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="org.fairscan.app.fileprovider"
+            android:name="org.fairscan.app.FairScanFileProvider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -17,6 +17,11 @@ plugins {
     // needed to make renovate run without shot, as shot requires Android SDK
     // https://github.com/pedrovgs/Shot/issues/300
     alias(libs.plugins.shot) apply false
+    // :fairscan-imageprocessing is a plain JVM module (no AGP), which needs this applied
+    // explicitly - declared here so Gradle resolves one canonical version across the build,
+    // same as every other plugin above.
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.aboutlibraries.android) apply false
 }
 
 tasks.register<Delete>("clean") {

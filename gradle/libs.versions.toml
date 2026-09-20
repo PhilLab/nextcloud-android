@@ -100,8 +100,17 @@ assertjVersion = "3.27.7"
 pdfboxAndroidVersion = "2.0.27.0"
 zoomableVersion = "2.11.1"
 reorderableVersion = "3.0.0"
-aboutLibrariesVersion = "13.2.1"
+aboutLibrariesVersion = "15.2.0"
+# androidx.activity:activity-compose isn't covered by the Compose BOM (different Maven group).
+# :app previously got it transitively at 1.9.2; :fairscan needs a newer one FairScan's own code
+# compiles against, and since :fairscan becomes part of :app's dependency graph, :app's resolved
+# version moves up to this regardless of whether it's pinned here explicitly.
+activityComposeVersion = "1.13.0"
 tesseract4androidVersion = "4.9.0"
+# Used directly by FairScan's source (kotlinx.collections.immutable.*) but not declared in its own
+# catalog - it gets it transitively from another dependency there; declared explicitly here instead
+# of relying on the same transitive path holding.
+kotlinxCollectionsImmutableVersion = "0.5.2"
 
 [libraries]
 # Crypto
@@ -200,7 +209,7 @@ compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
-compose-activity = { module = "androidx.activity:activity-compose" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
 
 # Media3
 media3-datasource = { module = "androidx.media3:media3-datasource-okhttp", version.ref = "media3" }
@@ -269,7 +278,11 @@ documentfile = { module = "androidx.documentfile:documentfile", version.ref = "d
 # (see metadata/org.fairscan.app.yml in https://gitlab.com/fdroid/fdroiddata) - used for all flavors here
 # to avoid maintaining two dependency sets.
 litert-fdroid = { module = "de.schliweb:tensorflow-lite-fdroid", version.ref = "litertFdroidVersion" }
-litert-support = { module = "com.google.ai.edge.litert:litert-support", version.ref = "litertVersion" }
+# litert-support:1.4.1's own AAR is an empty shell (a pointer to litert-support-api, which has all
+# the actual classes) - depending on it directly pulls in both, and both declare the identical
+# manifest namespace org.tensorflow.lite.support, which AGP's merger rejects as a hard error.
+# Depending on litert-support-api directly avoids the collision.
+litert-support-api = { module = "com.google.ai.edge.litert:litert-support-api", version.ref = "litertVersion" }
 litert-metadata = { module = "com.google.ai.edge.litert:litert-metadata", version.ref = "litertVersion" }
 opencv-android = { module = "org.opencv:opencv", version.ref = "opencvVersion" }
 opencv-java = { module = "org.openpnp:opencv", version.ref = "opencvJavaVersion" }
@@ -279,6 +292,7 @@ zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomableVersio
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderableVersion" }
 aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibrariesVersion" }
 tesseract4android = { module = "cz.adaptech.tesseract4android:tesseract4android-openmp", version.ref = "tesseract4androidVersion" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutableVersion" }
 
 [bundles]
 media3 = ["media3-ui", "media3-session", "media3-exoplayer", "media3-datasource"]
