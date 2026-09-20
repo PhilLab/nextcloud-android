@@ -44,6 +44,7 @@ import com.nextcloud.android.lib.resources.files.ToggleFileLockRemoteOperation;
 import com.nextcloud.client.account.User;
 import com.nextcloud.client.device.DeviceInfo;
 import com.nextcloud.client.di.Injectable;
+import com.nextcloud.client.documentscan.DocumentScanLauncher;
 import com.nextcloud.client.editimage.EditImageActivity;
 import com.nextcloud.client.jobs.BackgroundJobManager;
 import com.nextcloud.client.network.ClientFactory;
@@ -223,9 +224,8 @@ public class OCFileListFragment extends ExtendedListFragment implements
     public final ParentFolderFinder parentFolderFinder = new ParentFolderFinder();
     private FileListLayoutManager fileListLayoutManager;
 
-    private static final Intent scanIntentExternalApp = new Intent("org.fairscan.app.action.SCAN_TO_PDF");
-
     @Inject DeviceInfo deviceInfo;
+    @Inject DocumentScanLauncher documentScanLauncher;
 
     protected enum MenuItemAddRemove {
         DO_NOTHING,
@@ -629,19 +629,10 @@ public class OCFileListFragment extends ExtendedListFragment implements
     }
 
     @Override
-    public void scanDocUploadFromApp() {
+    public void scanDocUpload() {
         requireActivity().startActivityForResult(
-            scanIntentExternalApp,
+            documentScanLauncher.scanIntent(requireContext()),
             FileDisplayActivity.REQUEST_CODE__SELECT_CONTENT_FROM_APPS_AUTO_RENAME);
-    }
-
-    @Override
-    public boolean isScanDocUploadFromAppAvailable() {
-        var context = getActivity();
-        if (context == null) {
-            return false;
-        }
-        return scanIntentExternalApp.resolveActivity(context.getPackageManager()) != null;
     }
 
     @Override

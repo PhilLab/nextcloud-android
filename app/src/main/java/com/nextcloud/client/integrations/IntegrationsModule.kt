@@ -8,6 +8,8 @@ package com.nextcloud.client.integrations
 
 import android.content.Context
 import android.content.pm.PackageManager
+import com.nextcloud.client.documentscan.DocumentScanLauncher
+import com.nextcloud.client.documentscan.FairScanDocumentScanLauncher
 import com.nextcloud.client.integrations.deck.DeckApi
 import com.nextcloud.client.integrations.deck.DeckApiImpl
 import dagger.Module
@@ -17,4 +19,7 @@ import dagger.Provides
 class IntegrationsModule {
     @Provides
     fun deckApi(context: Context, packageManager: PackageManager): DeckApi = DeckApiImpl(context, packageManager)
+
+    @Provides
+    fun documentScanLauncher(): DocumentScanLauncher = FairScanDocumentScanLauncher()
 }
