@@ -1,0 +1,3 @@
+[submodule "submodules/fairscan"]
+	path = submodules/fairscan
+	url = https://github.com/pynicolas/FairScan.git
