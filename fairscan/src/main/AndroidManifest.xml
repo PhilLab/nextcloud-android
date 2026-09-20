@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Nextcloud - Android Client
+  ~
+  ~ SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        FairScan's own scanning UI, compiled into this app rather than launched as a separate
+        installed app - see :fairscan/build.gradle.kts. MainActivity is launched explicitly with
+        the org.fairscan.app.action.SCAN_TO_PDF action FairScan's own MainActivity.resolveLaunchMode()
+        already switches on, so it isn't exported for cross-app resolution the way FairScan's own
+        manifest declares it.
+    -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+        <activity
+            android:name="org.fairscan.app.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FairScan" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="org.fairscan.app.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

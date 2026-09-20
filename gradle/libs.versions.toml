@@ -88,6 +88,21 @@ browserVersion = "1.10.0"
 kotlinxCoroutinesTestVersion = "1.11.0"
 kotlinxCoroutinesVersion = "1.11.0"
 
+# FairScan (embedded document scanner, see :fairscan and :fairscan-imageprocessing)
+cameraxVersion = "1.6.1"
+datastoreVersion = "1.2.1"
+documentfileVersion = "1.1.0"
+litertVersion = "1.4.1"
+litertFdroidVersion = "1.4.1-fdroid"
+opencvVersion = "4.12.0"
+opencvJavaVersion = "4.9.0-0"
+assertjVersion = "3.27.7"
+pdfboxAndroidVersion = "2.0.27.0"
+zoomableVersion = "2.11.1"
+reorderableVersion = "3.0.0"
+aboutLibrariesVersion = "13.2.1"
+tesseract4androidVersion = "4.9.0"
+
 [libraries]
 # Crypto
 android-library = { module = "com.github.nextcloud:android-library", version.ref = "androidLibraryVersion" }
@@ -240,6 +255,31 @@ foundation = { group = "androidx.compose.foundation", name = "foundation", versi
 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesVersion" }
 
+# FairScan (embedded document scanner, see :fairscan and :fairscan-imageprocessing)
+material-icons-extended = { module = "androidx.compose.material:material-icons-extended-android", version.ref = "materialIconsCoreVersion" }
+lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelKtxVersion" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleViewmodelKtxVersion" }
+camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraxVersion" }
+camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraxVersion" }
+camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraxVersion" }
+camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraxVersion" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastoreVersion" }
+documentfile = { module = "androidx.documentfile:documentfile", version.ref = "documentfileVersion" }
+# F-Droid-compatible fork of Google's litert runtime, matching FairScan's own accepted F-Droid build recipe
+# (see metadata/org.fairscan.app.yml in https://gitlab.com/fdroid/fdroiddata) - used for all flavors here
+# to avoid maintaining two dependency sets.
+litert-fdroid = { module = "de.schliweb:tensorflow-lite-fdroid", version.ref = "litertFdroidVersion" }
+litert-support = { module = "com.google.ai.edge.litert:litert-support", version.ref = "litertVersion" }
+litert-metadata = { module = "com.google.ai.edge.litert:litert-metadata", version.ref = "litertVersion" }
+opencv-android = { module = "org.opencv:opencv", version.ref = "opencvVersion" }
+opencv-java = { module = "org.openpnp:opencv", version.ref = "opencvJavaVersion" }
+assertj = { module = "org.assertj:assertj-core", version.ref = "assertjVersion" }
+pdfbox-android = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfboxAndroidVersion" }
+zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomableVersion" }
+reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderableVersion" }
+aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibrariesVersion" }
+tesseract4android = { module = "cz.adaptech.tesseract4android:tesseract4android-openmp", version.ref = "tesseract4androidVersion" }
+
 [bundles]
 media3 = ["media3-ui", "media3-session", "media3-exoplayer", "media3-datasource"]
 espresso = ["espresso-core", "espresso-contrib", "espresso-web", "espresso-accessibility", "espresso-intents", "espresso-idling-resource"]
@@ -290,3 +330,5 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektGradlePlugin" }
 shot = { id = "shot", version.ref = "shotVersion" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+aboutlibraries-android = { id = "com.mikepenz.aboutlibraries.plugin.android", version.ref = "aboutLibrariesVersion" }

@@ -444,6 +444,10 @@ dependencies {
     implementation(libs.emoji.google)
     // endregion
 
+    // region FairScan (embedded document scanner - see :fairscan/build.gradle.kts)
+    implementation(project(":fairscan"))
+    // endregion
+
     // region SpotBugs
     spotbugsPlugins(libs.findsecbugs.plugin)
     spotbugsPlugins(libs.fb.contrib)

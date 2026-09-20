@@ -66,4 +66,4 @@ includeBuild("../android-common") {
 }
 */
 
-include(":app")
+include(":app", ":fairscan", ":fairscan-imageprocessing")

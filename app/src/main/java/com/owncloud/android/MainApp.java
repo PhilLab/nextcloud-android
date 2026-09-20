@@ -91,6 +91,7 @@ import com.owncloud.android.utils.theme.CapabilityUtils;
 import com.owncloud.android.utils.theme.ViewThemeUtils;
 
 import org.conscrypt.Conscrypt;
+import org.fairscan.app.FairScanApp;
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
@@ -127,8 +128,13 @@ import static com.owncloud.android.ui.activity.ContactsPreferenceActivity.PREFER
 /**
  * Main Application of the project. Contains methods to build the "static" strings. These strings were before constants
  * in different classes.
+ *
+ * Extends FairScanApp (the embedded FairScan document scanner's own Application subclass) so
+ * FairScan's MainActivity, which expects `application` to be a FairScanApp, works unmodified.
+ * See :fairscan/build.gradle.kts and org.fairscan.app.FairScanApp for the maintained patch this
+ * depends on.
  */
-public class MainApp extends Application implements HasAndroidInjector, NetworkChangeListener {
+public class MainApp extends FairScanApp implements HasAndroidInjector, NetworkChangeListener {
     public static final OwnCloudVersion OUTDATED_SERVER_VERSION = NextcloudVersion.nextcloud_30;
     public static final OwnCloudVersion MINIMUM_SUPPORTED_SERVER_VERSION = OwnCloudVersion.nextcloud_20;
 
