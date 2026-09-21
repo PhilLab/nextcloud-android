@@ -143,9 +143,8 @@ aboutLibraries {
 }
 
 dependencies {
-    implementation(project(":fairscan-imageprocessing")) {
-        exclude(group = "org.openpnp", module = "opencv")
-    }
+    implementation(project(":fairscan-imageprocessing"))
+    implementation(project(":opencv-minimal:android"))
 
     implementation(libs.compose.activity)
     implementation(platform(libs.compose.bom))
@@ -168,7 +167,6 @@ dependencies {
     implementation(libs.litert.metadata) {
         exclude(group = "com.google.ai.edge.litert", module = "litert")
     }
-    implementation(libs.opencv.android)
     implementation(libs.pdfbox.android) {
         exclude("org.bouncycastle")
     }

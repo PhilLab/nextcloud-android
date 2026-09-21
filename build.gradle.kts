@@ -28,6 +28,39 @@ tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
 
+// :opencv-minimal:android is reused unmodified from the FairScan submodule (see
+// settings.gradle.kts). Two things about its own build.gradle.kts are worked around from here
+// rather than by patching that file:
+gradle.projectsEvaluated {
+    val opencvMinimalAndroid = project(":opencv-minimal:android")
+
+    // 1. Its buildOpenCVNative_<abi> Exec tasks reference top-level script properties
+    //    (modulesToInclude, openCVVersion) directly from their doFirst action, which captures an
+    //    implicit reference to the whole build script and isn't configuration-cache-serializable.
+    opencvMinimalAndroid.tasks.withType<Exec>().configureEach {
+        notCompatibleWithConfigurationCache(
+            "Shells out to prepare-opencv.sh/build-native.sh, whose Gradle wiring references " +
+                "top-level script properties from task actions - see this build.gradle.kts."
+        )
+    }
+
+    // 2. Its defaultConfig.consumerProguardFiles("consumer-rules.pro") resolves relative to this
+    //    module's own directory, but the file actually lives one level up, in the opencv-minimal/
+    //    parent directory - looks like an upstream bug (missing "../"), and release builds hard-fail
+    //    on the missing file. Reconfiguring the DSL after the fact didn't take effect (AGP's newer
+    //    DSL and its internal variant model apparently don't share the same backing list here), and
+    //    wiring a Copy task into preBuild didn't get scheduled either (mergeReleaseConsumerProguardFiles
+    //    doesn't appear to depend on preBuild in AGP's own task graph). Copied eagerly here instead,
+    //    during configuration - a trivial, idempotent text-file copy, so running it unconditionally on
+    //    every invocation costs nothing worth optimizing. Leaves a small, easily-cleaned untracked file
+    //    in the submodule's own (already gitignored-for-generated-content) directory, not a change to
+    //    any of its tracked files.
+    opencvMinimalAndroid.file("../consumer-rules.pro").copyTo(
+        opencvMinimalAndroid.file("consumer-rules.pro"),
+        overwrite = true
+    )
+}
+
 tasks.register<Copy>("installGitHooks") {
     description = "Install git hooks"
 

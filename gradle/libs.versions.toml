@@ -94,8 +94,6 @@ datastoreVersion = "1.2.1"
 documentfileVersion = "1.1.0"
 litertVersion = "1.4.1"
 litertFdroidVersion = "1.4.1-fdroid"
-opencvVersion = "4.12.0"
-opencvJavaVersion = "4.9.0-0"
 assertjVersion = "3.27.7"
 pdfboxAndroidVersion = "2.0.27.0"
 zoomableVersion = "2.11.1"
@@ -284,8 +282,6 @@ litert-fdroid = { module = "de.schliweb:tensorflow-lite-fdroid", version.ref = "
 # Depending on litert-support-api directly avoids the collision.
 litert-support-api = { module = "com.google.ai.edge.litert:litert-support-api", version.ref = "litertVersion" }
 litert-metadata = { module = "com.google.ai.edge.litert:litert-metadata", version.ref = "litertVersion" }
-opencv-android = { module = "org.opencv:opencv", version.ref = "opencvVersion" }
-opencv-java = { module = "org.openpnp:opencv", version.ref = "opencvJavaVersion" }
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertjVersion" }
 pdfbox-android = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfboxAndroidVersion" }
 zoomable = { module = "net.engawapg.lib:zoomable", version.ref = "zoomableVersion" }
@@ -345,4 +341,8 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektGradlePlugin
 shot = { id = "shot", version.ref = "shotVersion" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+# Same plugin as kotlin-jvm above, under the alias name FairScan's own build files use (see
+# opencv-minimal/java/build.gradle.kts) - lets those files be reused unmodified via projectDir
+# remapping in settings.gradle.kts instead of needing a parallel Nextcloud-owned copy.
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 aboutlibraries-android = { id = "com.mikepenz.aboutlibraries.plugin.android", version.ref = "aboutLibrariesVersion" }
