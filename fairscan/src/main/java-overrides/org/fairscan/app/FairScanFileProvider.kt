@@ -14,8 +14,8 @@ import androidx.core.content.FileProvider
  * a second time here, alongside :app's own FileProvider declaration, makes AGP's manifest merger
  * treat both <provider> entries as the same logical component (its merge key is android:name) and
  * reject the differing authorities. Subclassing gives this one a distinct android:name so both
- * coexist - FileProvider.getUriForFile() resolves purely by authority string at runtime, so
- * FairScan's own uriForFile() (which computes "${packageName}.fileprovider") keeps working
- * unmodified.
+ * coexist - FileProvider.getUriForFile() resolves purely by authority string at runtime, so which
+ * concrete class is registered under it doesn't matter to callers (see the ui/FileUris.kt override
+ * for the authority itself).
  */
 class FairScanFileProvider : FileProvider()

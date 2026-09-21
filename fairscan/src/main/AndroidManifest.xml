@@ -26,13 +26,15 @@
             android:theme="@style/Theme.FairScan" />
 
         <!--
-            Authority matches what FairScan's own uriForFile() computes at runtime
-            ("${packageName}.fileprovider") - see FairScanFileProvider's own header for why this
-            isn't just androidx.core.content.FileProvider like FairScan's own manifest declares.
+            Fixed authority, matching the override at
+            src/main/java-overrides/org/fairscan/app/ui/FileUris.kt - see that file's own header
+            for why it isn't "${applicationId}.fileprovider" (what FairScan's own uriForFile()
+            would otherwise compute), and FairScanFileProvider's own header for why this isn't
+            just androidx.core.content.FileProvider like FairScan's own manifest declares.
         -->
         <provider
             android:name="org.fairscan.app.FairScanFileProvider"
-            android:authorities="${applicationId}.fileprovider"
+            android:authorities="org.fairscan.app.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

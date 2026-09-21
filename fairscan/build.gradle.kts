@@ -40,7 +40,12 @@ val fairscanSrcOverrides = listOf(
     // LibraryExtension detection; this module uses a newer AboutLibraries version instead (see the
     // aboutlibraries.android plugin below), which renamed that API. Simplified rather than ported,
     // since this screen is only reachable from Settings, which Nextcloud's launch mode always hides.
-    "org/fairscan/app/ui/screens/LibrariesScreen.kt"
+    "org/fairscan/app/ui/screens/LibrariesScreen.kt",
+    // Computes the FileProvider authority from context.packageName, which is Nextcloud's own
+    // package once merged - that trips Nextcloud's own UriUploader.isSensitiveUri() guard, which
+    // rejects any returned URI containing its own package name. Uses a fixed authority instead;
+    // see the override's own file header.
+    "org/fairscan/app/ui/FileUris.kt"
 )
 
 val syncFairscanSrc = tasks.register<Sync>("syncFairscanSrc") {
